@@ -60,74 +60,26 @@ print(prims(a))
 ### Kruskal's Algorithm
 
 ```
-import numpy as np
-def edge_weight(amat):
-    l=[]
-    visited={}
-    for i in range(len(amat)):
-        visited[i]=False
-        for j in range(len(amat)):
-            if amat[i][j]>0:
-                l=l+[[amat[i][j],i,j]]
-    return l,visited
-Binary Search Tree operations in Python
-131
-​
-132
-​
-133
-# Create a node
-def kruskal(mat):
-    mat=np.array(mat)
-    print(mat)
-    (b,visited)=edge_weight(mat)
-    nmat=np.zeros(mat.shape)
-    b.sort()
-    l=[]
-    k=[]
-    #print(visited,"\n",b)
-    count=0
-    visited[b[0][1]]=True
-    l+=[b[0][1]]
-    visited[b[0][2]]=True
-    k+=[b[0][2]]
-    nmat[b[0][1]][b[0][2]]=b[0][0]
-    print(b)
-    print(nmat)
-    while(len(b)>0):
-        i=b[0]
-        count+=1
-        print(i[1],i[2])
-        print(visited[i[1]] ,visited[i[2]])
-        if visited[i[1]] == visited[i[2]]==True:
-            pass
-
-        else:
-            print(l,k)
-            nmat[i[1]][i[2]]=i[0]
-            if ((i[1] in l) and not(i[2] in k)) or (not(i[1] in k) and (i[2] in l)):
-                visited[i[2]]=True
-                visited[i[1]]=True
-            if (i[1] in l):
-                l+=[i[2]]
-            elif (i[1] in k):
-                k+=[i[2]]
-            elif (i[2] in l):
-                l+=[i[1]]
-            elif (i[2] in k):
-                k+=[i[1]]
-            else:
-                pass
-            print("Updated ")
-            print(b)
-        b=b[1:]
-        print()
-    print(count)
-    return nmat
-
-a=[[0,10,3,0,0,7],[10,0,6,2,4,0],[3,6,0,3,0,8],[0,2,3,0,2,0],[0,4,0,2,0,0],[7,0,8,0,0,0]]
-print(kruskal(a))
-
+def kruskal(WList):
+    (edges,component,TE) = ([],{},[])
+    for u in WList.keys():
+        # Weight as first component to sort easily
+        edges.extend([(d,u,v) for (v,d) in WList[u]])
+        component[u] = u
+    edges.sort()
+    print(edges)
+    
+    for (d,u,v) in edges:
+        if component[u] != component[v]:
+            TE.append((u,v))
+            c = component[u]
+            for w in WList.keys():
+                if component[w] == c:
+                    component[w] = component[v]
+    return(TE)
+    
+a={0: [(1, 10), (3, 18)], 1: [(2, 20), (3, 6), (0, 10)], 2: [(4, 8), (1, 20)], 3: [(4, 70), (0, 18), (1, 6)], 4: [(2, 8), (3, 70)]}
+kruskal(a)
 ```
 
 ### BST Insertion and Deletion
