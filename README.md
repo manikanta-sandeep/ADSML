@@ -56,6 +56,44 @@ def prims(Amat):
 a=[[0,10,0,18,0],[10,0,20,6,0],[0,20,0,0,8],[18,6,0,0,70],[0,0,8,70,0]]
 print(prims(a))
 ```
+### Prim's Alternate
+```
+def primlist(WList):
+    infinity = 1 + max([d for u in WList.keys()
+                           for (v,d) in WList[u]])
+    (visited,distance) = ({},{})
+    for v in WList.keys():
+        (visited[v],distance[v]) = (False,infinity)
+        
+    TreeEdges = []
+    visited[0] = True
+    for (v,d) in WList[0]:
+        distance[v] = d
+    
+    for i in WList.keys():
+        mindist = infinity
+        nextv = None
+        for u in WList.keys():
+            for (v,d) in WList[u]:
+                if visited[u] and (not visited[v]) and d < mindist:
+                    mindist = d
+                    nextv = v
+                    nexte = (u,v)
+                    
+        if nextv is None:
+            break
+        
+        visited[nextv] = True
+        TreeEdges.append(nexte)
+        for (v,d) in WList[nextv]:
+            if not visited[v]:
+                distance[v] = min(distance[v],d)
+    return(TreeEdges)
+    
+a={0: [(1, 10), (3, 18)], 1: [(2, 20), (3, 6), (0, 10)], 2: [(4, 8), (1, 20)], 3: [(4, 70), (0, 18), (1, 6)], 4: [(2, 8), (3, 70)]}
+primlist(a)
+```
+
         
 ### Kruskal's Algorithm
 
